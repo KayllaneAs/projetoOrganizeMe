@@ -1,84 +1,96 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Lista de tarefas colaborativas</title>
-    <link rel="stylesheet" href="style.css" />
-    
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lista de tarefas colaborativas</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div class="container">
-        <h1>📝 Lista de tarefas Colaborativa 📝</h1>
-        
-        <div class="card">
-            <p>Plataforma para organização colaborativa de tarefas, que promove a comunicação eficiente e o trabalho integrado da equipe.</p>
-        </div>
-        
-        <div class="input-group">
-            <input type="text" id="pessoa" placeholder="Digite seu nome">
-            <input type="text" id="tarefa" placeholder="Digite o nome da tarefa">
-            <select name="dias" id="dias">
-                <option value="segunda">Segunda-Feira</option>
-                <option value="terca">Terça-Feira</option>
-                <option value="quarta">Quarta-Feira</option>
-                <option value="quinta">Quinta-Feira</option>
-                <option value="sexta">Sexta-Feira</option>
-                <option value="sabado">Sábado</option>
-                <option value="domingo">Domingo</option>
-                </select>
-
-            <button class="btn btn-primary" onclick="adicionarTarefa()">Adicionar Tarefa</button>
-        </div>
-        
-        <div class="card">
-            <p>Tarefas</p>
-        </div>
-        
-        <footer>
-            <p>Aula 10 | Eric | Kayllane | Gabriella | M. Eduarda </p>
-        </footer>
+  <div class="container">
+    <h1>📝 Lista de tarefas Colaborativa 📝</h1>
+    
+    <div class="card">
+      <p>Plataforma para organização colaborativa de tarefas, que promove a comunicação eficiente e o trabalho integrado da equipe.</p>
     </div>
+    
+    <div class="input-group">
+      <input type="text" id="pessoa" placeholder="Digite seu nome">
+      <input type="text" id="tarefa" placeholder="Digite o nome da tarefa">
+      <select name="dias" id="dias">
+        <option value="segunda">Segunda-Feira</option>
+        <option value="terca">Terça-Feira</option>
+        <option value="quarta">Quarta-Feira</option>
+        <option value="quinta">Quinta-Feira</option>
+        <option value="sexta">Sexta-Feira</option>
+        <option value="sabado">Sábado</option>
+        <option value="domingo">Domingo</option>
+      </select>
 
-    <script src="script.js">
+      <!-- botão SEM onclick -->
+      <button id="btnAdicionar" type="button" class="btn btn-primary">Adicionar Tarefa</button>
+    </div>
+    
+    <div class="card">
+      <p>Tarefas</p>
+    </div>
+    
+    <footer>
+      <p>Aula 10 | Eric | Kayllane | Gabriella | M. Eduarda </p>
+    </footer>
+  </div>
 
+  <!-- JS vem no final, para garantir que elementos já existem -->
+  <script>
     let pessoas = {}; 
-    function adicionarTarefa() {
-    let pessoa = document.getElementById("pessoa").value.trim();
-    let tarefa = document.getElementById("tarefa").value.trim();
-    let dia = document.getElementById("dia").value;
 
-    // verifica se está preenchido
-    if (!pessoa || !tarefa) {
+    function adicionarTarefa() {
+      const pessoa = document.getElementById("pessoa").value.trim();
+      const tarefa = document.getElementById("tarefa").value.trim();
+      const dia = document.getElementById("dias").value;
+
+      if (!pessoa || !tarefa) {
         alert("Preencha todos os campos!");
         return;
+      }
+
+      if (!pessoas[pessoa]) pessoas[pessoa] = {};
+      if (!pessoas[pessoa][dia]) pessoas[pessoa][dia] = [];
+
+      pessoas[pessoa][dia].push({ texto: tarefa, concluida: false });
+
+      console.log("Tarefa adicionada:", { pessoa, dia, tarefa });
+      console.log("Estado atual:", pessoas);
+
+      // limpa inputs
+      document.getElementById("pessoa").value = "";
+      document.getElementById("tarefa").value = "";
     }
 
-    // Adicionar tarefa à pessoa e dia correspondente
-    if (!pessoas[pessoa]) {
-        pessoas[pessoa] = {}; 
+    function concluirTarefa(pessoa, dia, index) {
+      if (pessoas[pessoa] && pessoas[pessoa][dia] && pessoas[pessoa][dia][index]) {
+        pessoas[pessoa][dia][index].concluida = !pessoas[pessoa][dia][index].concluida;
+        console.log("Tarefa concluída:", pessoas[pessoa][dia][index]);
+      }
     }
-    if (!pessoas[pessoa][dia]) {
-        pessoas[pessoa][dia] = []; 
+
+    function removerTarefa(pessoa, dia, index) {
+      if (pessoas[pessoa] && pessoas[pessoa][dia]) {
+        pessoas[pessoa][dia].splice(index, 1);
+
+        if (pessoas[pessoa][dia].length === 0) {
+          delete pessoas[pessoa][dia];
+        }
+        if (Object.keys(pessoas[pessoa]).length === 0) {
+          delete pessoas[pessoa];
+        }
+        console.log("Tarefa removida. Estado atual:", pessoas);
+      }
     }
 
-    pessoas[pessoa][dia].push(tarefa); 
-
-    exibirTarefas(); // atualiza lista
-}
-     //exibir tarefas
-        function exibirTarefas() {
-            
-        }
-    //concluir tarefa
-        function concluirTarefa() {
-
-        }
-    //remover tarefa
-        function removerTarefa(){
-
-        }
-
-    </script>
+    
+    document.getElementById("btnAdicionar")
+      .addEventListener("click", adicionarTarefa);
+  </script>
 </body>
 </html>
