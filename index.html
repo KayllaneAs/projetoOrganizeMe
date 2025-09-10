@@ -40,6 +40,45 @@
         </footer>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js">
+
+    let pessoas = {}; 
+    function adicionarTarefa() {
+    let pessoa = document.getElementById("pessoa").value.trim();
+    let tarefa = document.getElementById("tarefa").value.trim();
+    let dia = document.getElementById("dia").value;
+
+    // verifica se está preenchido
+    if (!pessoa || !tarefa) {
+        alert("Preencha todos os campos!");
+        return;
+    }
+
+    // Adicionar tarefa à pessoa e dia correspondente
+    if (!pessoas[pessoa]) {
+        pessoas[pessoa] = {}; 
+    }
+    if (!pessoas[pessoa][dia]) {
+        pessoas[pessoa][dia] = []; 
+    }
+
+    pessoas[pessoa][dia].push(tarefa); 
+
+    exibirTarefas(); // atualiza lista
+}
+     //exibir tarefas
+        function exibirTarefas() {
+            
+        }
+    //concluir tarefa
+        function concluirTarefa() {
+
+        }
+    //remover tarefa
+        function removerTarefa(){
+
+        }
+
+    </script>
 </body>
 </html>
