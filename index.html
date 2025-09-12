@@ -8,8 +8,8 @@
 </head>
 <body>
   <div class="container">
-    <h1>📝 Lista de tarefas Colaborativa 📝</h1>
-    
+    <h1> Lista de tarefas Colaborativa</h1> 
+
     <div class="card">
       <p>Plataforma para organização colaborativa de tarefas, que promove a comunicação eficiente e o trabalho integrado da equipe.</p>
     </div>
@@ -27,70 +27,16 @@
         <option value="domingo">Domingo</option>
       </select>
 
-      <!-- botão SEM onclick -->
       <button id="btnAdicionar" type="button" class="btn btn-primary">Adicionar Tarefa</button>
     </div>
     
-    <div class="card">
-      <p>Tarefas</p>
-    </div>
+    <div id="tarefas-container"></div>
     
     <footer>
-      <p>Aula 10 | Eric | Kayllane | Gabriella | M. Eduarda </p>
+      <p>Aula 10 - Autores: Eric | Kayllane | Gabriella | M. Eduarda </p>
     </footer>
   </div>
-
-  <!-- JS vem no final, para garantir que elementos já existem -->
-  <script>
-    let pessoas = {}; 
-
-    function adicionarTarefa() {
-      const pessoa = document.getElementById("pessoa").value.trim();
-      const tarefa = document.getElementById("tarefa").value.trim();
-      const dia = document.getElementById("dias").value;
-
-      if (!pessoa || !tarefa) {
-        alert("Preencha todos os campos!");
-        return;
-      }
-
-      if (!pessoas[pessoa]) pessoas[pessoa] = {};
-      if (!pessoas[pessoa][dia]) pessoas[pessoa][dia] = [];
-
-      pessoas[pessoa][dia].push({ texto: tarefa, concluida: false });
-
-      console.log("Tarefa adicionada:", { pessoa, dia, tarefa });
-      console.log("Estado atual:", pessoas);
-
-      // limpa inputs
-      document.getElementById("pessoa").value = "";
-      document.getElementById("tarefa").value = "";
-    }
-
-    function concluirTarefa(pessoa, dia, index) {
-      if (pessoas[pessoa] && pessoas[pessoa][dia] && pessoas[pessoa][dia][index]) {
-        pessoas[pessoa][dia][index].concluida = !pessoas[pessoa][dia][index].concluida;
-        console.log("Tarefa concluída:", pessoas[pessoa][dia][index]);
-      }
-    }
-
-    function removerTarefa(pessoa, dia, index) {
-      if (pessoas[pessoa] && pessoas[pessoa][dia]) {
-        pessoas[pessoa][dia].splice(index, 1);
-
-        if (pessoas[pessoa][dia].length === 0) {
-          delete pessoas[pessoa][dia];
-        }
-        if (Object.keys(pessoas[pessoa]).length === 0) {
-          delete pessoas[pessoa];
-        }
-        console.log("Tarefa removida. Estado atual:", pessoas);
-      }
-    }
-
-    
-    document.getElementById("btnAdicionar")
-      .addEventListener("click", adicionarTarefa);
-  </script>
+    <script src="script.js"></script>
 </body>
-</html>
+</html> 
+
