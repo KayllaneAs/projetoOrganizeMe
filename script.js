@@ -154,6 +154,7 @@ function filtrarTarefas() {
         return !tarefaFiltro || t.texto.toLowerCase().includes(tarefaFiltro);
       });
 
+
       if (tarefasFiltradas.length === 0) return;
 
       const diaDiv = document.createElement('div');

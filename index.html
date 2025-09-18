@@ -27,6 +27,7 @@
         <option value="domingo">Domingo</option>
       </select>
       
+      <button id="btnAdicionar" type="button" class="btn btn-primary">Adicionar Tarefa</button>
       <!--APLICAÇÃO DE BOTÕES DE FILTRAR-->
       <div class="filtros">
         <input type="text" id="filtro-pessoa" placeholder="Filtrar por pessoa">
@@ -41,16 +42,14 @@
           <option value="sabado">Sábado</option>
           <option value="domingo">Domingo</option>
         </select>
-        <button onclick="filtrarTarefas()">Aplicar Filtro</button>
-        <button onclick="renderizarTarefas()">Limpar Filtro</button>
+        <button onclick="filtrarTarefas()" class="btn-filtro btn-aplicar">Aplicar Filtro</button>
+        <button onclick="renderizarTarefas()" class="btn-filtro btn-limpar">Limpar Filtro</button>
       </div>
 
 
-      <button id="btnAdicionar" type="button" class="btn btn-primary">Adicionar Tarefa</button>
+      
       <br>
       <div id="contador">Pendentes: 0 | Concluídas: 0</div>
-      <input type="text" id="filtroNome" placeholder="Filtrar tarefas por nome">
-      <input type="text" id="filtroDescricao" placeholder="Filtrar por nome de tarefa">
     </div>
 
     
