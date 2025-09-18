@@ -116,8 +116,6 @@ function renderizarTarefas() {
   }
 }
 
-
-//implementação do filtro, por dia da semana, pessoa e tarefa
 function filtrarTarefas() {
   const tarefaFiltro = document.getElementById("filtro-tarefa").value.trim().toLowerCase();
   const pessoaFiltro = document.getElementById("filtro-pessoa").value.trim().toLowerCase(); 
@@ -136,23 +134,34 @@ function filtrarTarefas() {
     'sabado': 'Sábado',
     'domingo': 'Domingo'
   };
-  // separar os usuários que não correspondem ao filtro
+
   for (const pessoa in pessoas) {
+    // Filtrar pelo nome da pessoa
+    if (pessoaFiltro && !pessoa.toLowerCase().includes(pessoaFiltro)) continue;
+
     const pessoaDiv = document.createElement('div');
     pessoaDiv.className = 'pessoa-container';
     pessoaDiv.innerHTML = `<h2>Usuário: ${pessoa}</h2>`;
     container.appendChild(pessoaDiv);
-  //filtro de dia
+
     ordemDias.forEach(dia => {
+      // Filtrar pelo dia
       if (filtroDia && dia !== filtroDia) return;
       if (!pessoas[pessoa][dia] || pessoas[pessoa][dia].length === 0) return;
-      //div do dia
+
+      // Filtrar pelas tarefas do dia
+      const tarefasFiltradas = pessoas[pessoa][dia].filter(t => {
+        return !tarefaFiltro || t.texto.toLowerCase().includes(tarefaFiltro);
+      });
+
+      if (tarefasFiltradas.length === 0) return;
+
       const diaDiv = document.createElement('div');
       diaDiv.className = 'dia-container';
       diaDiv.innerHTML = `<h3>${nomesDias[dia]}</h3>`;
       pessoaDiv.appendChild(diaDiv);
-      
-      pessoas[pessoa][dia].forEach((tarefa, index) => {
+
+      tarefasFiltradas.forEach((tarefa, index) => {
         const tarefaDiv = document.createElement('div');
         tarefaDiv.className = 'tarefa-item';
         if (tarefa.concluida) tarefaDiv.classList.add('concluida');
@@ -171,3 +180,6 @@ function filtrarTarefas() {
     });
   }
 }
+
+
+document.getElementById("btnAdicionar").addEventListener("click", adicionarTarefa);
