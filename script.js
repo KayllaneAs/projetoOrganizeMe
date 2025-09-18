@@ -117,13 +117,15 @@ function renderizarTarefas() {
 }
 
 
-
+//implementação do filtro, por dia da semana, pessoa e tarefa
 function filtrarTarefas() {
-  const filtroNome = document.getElementById("filtroNome").value.toLowerCase();
-  const filtroDescricao = document.getElementById("filtroDescricao").value.toLowerCase();
+  const tarefaFiltro = document.getElementById("filtro-tarefa").value.trim().toLowerCase();
+  const pessoaFiltro = document.getElementById("filtro-pessoa").value.trim().toLowerCase(); 
+  const filtroDia = document.getElementById("filtro-dia").value;
+
   const container = document.getElementById('tarefas-container');
   container.innerHTML = '';
-  
+
   const ordemDias = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
   const nomesDias = {
     'segunda': 'Segunda',
@@ -134,87 +136,38 @@ function filtrarTarefas() {
     'sabado': 'Sábado',
     'domingo': 'Domingo'
   };
-
-  // Verificar se há algum filtro ativo
-  const filtroAtivo = filtroNome !== '' || filtroDescricao !== '';
-
+  // separar os usuários que não correspondem ao filtro
   for (const pessoa in pessoas) {
-    const nomeCorresponde = pessoa.toLowerCase().includes(filtroNome);
-    let pessoaTemTarefasFiltradas = false;
-    
-    // Criar container da pessoa apenas se não houver filtro ativo
     const pessoaDiv = document.createElement('div');
     pessoaDiv.className = 'pessoa-container';
-    
-    if (!filtroAtivo) {
-      pessoaDiv.innerHTML = `<h2>Usuário: ${pessoa}</h2>`;
-    }
-
+    pessoaDiv.innerHTML = `<h2>Usuário: ${pessoa}</h2>`;
+    container.appendChild(pessoaDiv);
+  //filtro de dia
     ordemDias.forEach(dia => {
-      if (pessoas[pessoa][dia] && pessoas[pessoa][dia].length > 0) {
-        const diaDiv = document.createElement('div');
-        diaDiv.className = 'dia-container';
-        let diaTemTarefasFiltradas = false;
-        
-        pessoas[pessoa][dia].forEach((tarefa, index) => {
-          const descricaoCorresponde = tarefa.texto.toLowerCase().includes(filtroDescricao);
-          
-          // Mostrar tarefa se não houver filtro ou se corresponder aos filtros
-          if (!filtroAtivo || (nomeCorresponde && descricaoCorresponde)) {
-            if (!diaTemTarefasFiltradas) {
-              if (!filtroAtivo) {
-                diaDiv.innerHTML = `<h3>${nomesDias[dia]}</h3>`;
-              } else {
-              }
-              pessoaDiv.appendChild(diaDiv);
-              diaTemTarefasFiltradas = true;
-              pessoaTemTarefasFiltradas = true;
-            }
-            
-            const tarefaDiv = document.createElement('div');
-            tarefaDiv.className = 'tarefa-item';
-            if (tarefa.concluida) {
-              tarefaDiv.classList.add('concluida');
-            }
-            
-            if (filtroAtivo) {
-              // Modo filtro: mostrar apenas a tarefa
-              tarefaDiv.innerHTML = `
-                <span class="tarefa-texto">${tarefa.texto}</span>
-                <div class="tarefa-botoes">
-                  <button onclick="concluirTarefa('${pessoa}', '${dia}', ${index})" class="btn-concluir">
-                    ${tarefa.concluida ? 'Desfazer' : 'Concluir'}
-                  </button>
-                  <button onclick="removerTarefa('${pessoa}', '${dia}', ${index})" class="btn-remover">Remover</button>
-                </div>
-              `;
-            } else {
-              // Modo normal: mostrar estrutura completa
-              tarefaDiv.innerHTML = `
-                <span class="tarefa-texto">${tarefa.texto}</span>
-                <div class="tarefa-botoes">
-                  <button onclick="concluirTarefa('${pessoa}', '${dia}', ${index})" class="btn-concluir">
-                    ${tarefa.concluida ? 'Desfazer' : 'Concluir'}
-                  </button>
-                  <button onclick="removerTarefa('${pessoa}', '${dia}', ${index})" class="btn-remover">Remover</button>
-                </div>
-              `;
-            }
-            diaDiv.appendChild(tarefaDiv);
-          }
-        });
-      }
+      if (filtroDia && dia !== filtroDia) return;
+      if (!pessoas[pessoa][dia] || pessoas[pessoa][dia].length === 0) return;
+      //div do dia
+      const diaDiv = document.createElement('div');
+      diaDiv.className = 'dia-container';
+      diaDiv.innerHTML = `<h3>${nomesDias[dia]}</h3>`;
+      pessoaDiv.appendChild(diaDiv);
+      
+      pessoas[pessoa][dia].forEach((tarefa, index) => {
+        const tarefaDiv = document.createElement('div');
+        tarefaDiv.className = 'tarefa-item';
+        if (tarefa.concluida) tarefaDiv.classList.add('concluida');
+
+        tarefaDiv.innerHTML = `
+          <span class="tarefa-texto">${tarefa.texto}</span>
+          <div class="tarefa-botoes">
+            <button onclick="concluirTarefa('${pessoa}', '${dia}', ${index})" class="btn-concluir">
+              ${tarefa.concluida ? 'Desfazer' : 'Concluir'}
+            </button>
+            <button onclick="removerTarefa('${pessoa}', '${dia}', ${index})" class="btn-remover">Remover</button>
+          </div>
+        `;
+        diaDiv.appendChild(tarefaDiv);
+      });
     });
-
-    if ((!filtroAtivo && Object.keys(pessoas[pessoa]).length > 0) || 
-        (filtroAtivo && pessoaTemTarefasFiltradas)) {
-      container.appendChild(pessoaDiv);
-    }
   }
-  atualizarContador();
 }
-
-document.getElementById("btnAdicionar").addEventListener("click", adicionarTarefa);
-// eventos para filtro
-document.getElementById("filtroNome").addEventListener("input", filtrarTarefas);
-document.getElementById("filtroDescricao").addEventListener("input", filtrarTarefas);

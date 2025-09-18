@@ -26,14 +26,33 @@
         <option value="sabado">Sábado</option>
         <option value="domingo">Domingo</option>
       </select>
+      
+      <!--APLICAÇÃO DE BOTÕES DE FILTRAR-->
+      <div class="filtros">
+        <input type="text" id="filtro-pessoa" placeholder="Filtrar por pessoa">
+        <input type="text" id="filtro-tarefa" placeholder="Filtrar por tarefa">
+        <select id="filtro-dia">
+          <option value="">Todos os dias</option>
+          <option value="segunda">Segunda</option>
+          <option value="terca">Terça</option>
+          <option value="quarta">Quarta</option>
+          <option value="quinta">Quinta</option>
+          <option value="sexta">Sexta</option>
+          <option value="sabado">Sábado</option>
+          <option value="domingo">Domingo</option>
+        </select>
+        <button onclick="filtrarTarefas()">Aplicar Filtro</button>
+        <button onclick="renderizarTarefas()">Limpar Filtro</button>
+      </div>
+
 
       <button id="btnAdicionar" type="button" class="btn btn-primary">Adicionar Tarefa</button>
       <br>
       <div id="contador">Pendentes: 0 | Concluídas: 0</div>
       <input type="text" id="filtroNome" placeholder="Filtrar tarefas por nome">
       <input type="text" id="filtroDescricao" placeholder="Filtrar por nome de tarefa">
-
     </div>
+
     
     <div id="tarefas-container"></div>
     
