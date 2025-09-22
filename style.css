@@ -478,3 +478,40 @@ footer {
 .pessoa-container, .dia-container, .tarefa-item {
     will-change: transform;
 }
+
+/* ================================== Botões de filtro ================================== */
+.btn-filtro {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+    color: white;
+    margin-right: var(--spacing-sm);
+}
+.btn-aplicar {
+    background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+    color: white;
+}
+.btn-aplicar:hover {
+    background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Botão limpar filtro (cinza) */
+.btn-limpar {
+    background: linear-gradient(135deg, var(--secondary-300), var(--secondary-400));
+    color: var(--secondary-900);
+}
+.btn-limpar:hover {
+    background: linear-gradient(135deg, var(--secondary-400), var(--secondary-500));
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
